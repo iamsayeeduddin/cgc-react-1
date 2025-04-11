@@ -1,4 +1,6 @@
 const Name = (props) => {
+  console.log("NAME");
+
   return (
     <>
       <h1>Welcome {props.name}!</h1> <h4>{props.course}</h4>

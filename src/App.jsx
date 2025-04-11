@@ -1,51 +1,30 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-// import "./Css.css";
+import Counter from "./Counter";
 import Name from "./Name";
 
-const Course = () => {
-  return <h1>MERN Stack</h1>;
-};
-
-function App() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("Sayeeduddin");
-  // console.log(Name, PI, Age);
-  // const printName = (nm) => {
-  //   console.log(nm);
-  // };
-
-  // printName("Sayeed");
-  // printName("Azhar");
-  // printName("Salman");
-  // printName("Asad");
+const App = () => {
+  const [counts, setCounts] = useState(0);
   return (
-    <div>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React + Next JS</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p className="">
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-        {/* <input type="text" onChange={(e) => setName(e.target.value)} /> */}
-        {/* <Course /> */}
-        <Name name="Sayeed" course="MERN" showInput={true} />
-        <Name name="Azhar" course="Cybersecurity" />
-        <Name name="Salman" course="AWS" />
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
+    <>
+      <Name name="Sayeeduddin" course="MERN Stack" />
+      <Counter
+        sno={1}
+        counts={counts}
+        setCounts={setCounts}
+        initCount={1}
+        onClickDec={(setCount, count) => (count < 20 ? setCount(count - 2) : null)}
+        onClickInc={(setCount, count) => setCount(count + 2)}
+      />
+      <Counter
+        sno={2}
+        counts={counts}
+        setCounts={setCounts}
+        initCount={0}
+        onClickDec={(setCount, count) => setCount(count - 3)}
+        onClickInc={(setCount, count) => setCount(count + 3)}
+      />
+    </>
   );
-}
+};
 
 export default App;
