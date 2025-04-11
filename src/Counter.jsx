@@ -20,7 +20,7 @@ const Counter = (props) => {
       <button onClick={() => setCounts(counts - 1)} className="border-2 border-black p-2 mx-2">
         -
       </button>
-      <span>{counts}</span>
+      <span>{counts || count}</span>
       {/* <button onClick={() => onClickInc(setCount, count)} className="border-2 border-black p-2 mx-2"> */}
       <button onClick={() => setCounts(counts + 1)} className="border-2 border-black p-2 mx-2">
         +

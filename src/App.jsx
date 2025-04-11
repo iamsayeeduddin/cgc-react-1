@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Counter from "./Counter";
 import Name from "./Name";
+import Users from "./Users";
 
 const App = () => {
   const [counts, setCounts] = useState(0);
@@ -15,14 +16,15 @@ const App = () => {
         onClickDec={(setCount, count) => (count < 20 ? setCount(count - 2) : null)}
         onClickInc={(setCount, count) => setCount(count + 2)}
       />
-      <Counter
+      {/* <Counter
         sno={2}
-        counts={counts}
-        setCounts={setCounts}
+        // counts={counts}
+        // setCounts={setCounts}
         initCount={0}
         onClickDec={(setCount, count) => setCount(count - 3)}
         onClickInc={(setCount, count) => setCount(count + 3)}
-      />
+      /> */}
+      <Users />
     </>
   );
 };
