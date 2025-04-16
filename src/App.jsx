@@ -3,6 +3,7 @@ import Counter from "./Counter";
 import Name from "./Name";
 import Users from "./Users";
 import Form from "./Form";
+import APICall from "./APICall";
 
 const App = () => {
   const [counts, setCounts] = useState(0);
@@ -35,6 +36,7 @@ const App = () => {
       <button className="bg-blue-500 px-6 py-6 cursor-pointer" onClick={handleShowForm}>
         {showForm ? "Hide" : "Show"} Form
       </button>
+      <APICall />
       {showForm ? <Form /> : null}
     </>
   );

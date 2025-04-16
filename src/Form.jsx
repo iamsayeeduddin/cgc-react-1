@@ -1,7 +1,9 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const Form = () => {
   //   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -27,7 +29,28 @@ const Form = () => {
     };
   }, [formValues.company]);
 
-  console.log("FORM OUTSIDE");
+  const handleSubmit = () => {
+    if (!formValues.email || !formValues.firstName || !formValues.lastName || !formValues.password || !formValues.confirmPassword) {
+      alert("Please fill out all the fields in the form!");
+    } else {
+      if (formValues.password !== formValues.confirmPassword) {
+        alert("Passwords does not match!");
+        return;
+      }
+      setLoading(true);
+      let payload = {
+        name: formValues.firstName + " " + formValues.lastName,
+        email: formValues.email,
+        password: formValues.password,
+      };
+
+      axios
+        .post("http://localhost:5001/api/v1/users/signup", payload)
+        .then((res) => console.log(res.data))
+        .catch((err) => console.error(err))
+        .finally(() => setLoading(false));
+    }
+  };
 
   return (
     <div>
@@ -35,7 +58,7 @@ const Form = () => {
         className="max-w-md mx-auto"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(formValues);
+          handleSubmit();
         }}
       >
         <div className="relative z-0 w-full mb-5 group">
@@ -132,48 +155,12 @@ const Form = () => {
             </label>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 md:gap-6">
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              value={formValues.phoneNo}
-              onChange={handleInputChange}
-              name="phoneNo"
-              id="floating_phone"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none d dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="floating_phone"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Phone number (123-456-7890)
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="text"
-              value={formValues.company}
-              onChange={handleInputChange}
-              name="company"
-              id="floating_company"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none d dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="floating_company"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Company (Ex. Google)
-            </label>
-          </div>
-        </div>
         <button
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className={
+            "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 " +
+            (loading ? "animate-pulse" : "")
+          }
         >
           Submit
         </button>
