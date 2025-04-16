@@ -6,6 +6,12 @@ import Form from "./Form";
 
 const App = () => {
   const [counts, setCounts] = useState(0);
+  const [showForm, setShowForm] = useState(true);
+
+  const handleShowForm = () => {
+    setShowForm(!showForm);
+  };
+
   return (
     <>
       <Name name="Sayeeduddin" course="MERN Stack" />
@@ -26,7 +32,10 @@ const App = () => {
         onClickInc={(setCount, count) => setCount(count + 3)}
       /> */}
       {/* <Users /> */}
-      <Form />
+      <button className="bg-blue-500 px-6 py-6 cursor-pointer" onClick={handleShowForm}>
+        {showForm ? "Hide" : "Show"} Form
+      </button>
+      {showForm ? <Form /> : null}
     </>
   );
 };

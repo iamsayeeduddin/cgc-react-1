@@ -3,7 +3,6 @@ import userData from "./user.json";
 import User from "./User";
 
 const Users = () => {
-  console.log(userData);
   return (
     <div>
       <h3>Users</h3>
