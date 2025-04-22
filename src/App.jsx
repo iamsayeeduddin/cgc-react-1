@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Counter from "./Counter";
 import Name from "./Name";
 import Users from "./Users";
 import Form from "./Form";
 import APICall from "./APICall";
 import HOC from "./HOC";
-import { Route, Routes, useParams, Link, useNavigate } from "react-router-dom";
+import { Route, Routes, useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import RouteHOC from "./RouteHOC";
+import LoginForm from "./LoginForm";
 
 const App = () => {
   const [counts, setCounts] = useState(0);
@@ -18,7 +19,9 @@ const App = () => {
   };
 
   const goToTest = () => {
-    navigate("/test");
+    navigate("/test", {
+      state: { val: true },
+    });
   };
 
   return (
@@ -67,6 +70,7 @@ const App = () => {
         <button className="bg-blue-600 p-4" onClick={goToTest}>
           Go to Test
         </button>
+        {`Welcome ${localStorage.getItem("user") ? JSON.parse(localStorage?.getItem("user"))?.name : "User!"}`}
       </ul>
       <Routes>
         <Route
@@ -96,11 +100,18 @@ const App = () => {
           <Route path=":name" element={<TestDynamic />} />
           <Route path="*" element={<h1>NOT FOUND 404</h1>} />
         </Route>
+        <Route path="/login" element={<LoginForm />} />
         <Route path="*" element={<h1>NOT FOUND 404</h1>} />
       </Routes>
-      <RouteHOC path="/test" element={<h1>Testing RouteHOC</h1>} />
+      <RouteHOC path="/test" element={<TestComp />} />
     </>
   );
+};
+
+const TestComp = () => {
+  const location = useLocation();
+  console.log(location);
+  return <h1>Testing RouteHOC</h1>;
 };
 
 const TestDynamic = () => {
