@@ -9,9 +9,12 @@ import { Route, Routes, useParams, Link, useNavigate, useLocation } from "react-
 import RouteHOC from "./RouteHOC";
 import LoginForm from "./LoginForm";
 import Reducer from "./Reducer";
+import ProtectedRoute from "./utils/ProtectedRoute";
+import IsAdmin from "./utils/IsAdmin";
 
 const App = () => {
   const [counts, setCounts] = useState(0);
+  const user = JSON.parse(localStorage?.getItem("user"));
   const [showForm, setShowForm] = useState(true);
   const navigate = useNavigate();
 
@@ -68,6 +71,11 @@ const App = () => {
         <li>
           <Link to="/counter/sayeed">Dynamic Value</Link>
         </li>
+        <IsAdmin user={user}>
+          <li>
+            <Link to="/reducer">Reducer</Link>
+          </li>
+        </IsAdmin>
         <button className="bg-blue-600 p-4" onClick={goToTest}>
           Go to Test
         </button>
@@ -78,9 +86,9 @@ const App = () => {
           path={"/"}
           exact
           element={
-            <>
+            <ProtectedRoute user={user}>
               <h1>Welcome to My HomePage!</h1>
-            </>
+            </ProtectedRoute>
           }
         />
         <Route path="counter">
@@ -102,7 +110,14 @@ const App = () => {
           <Route path="*" element={<h1>NOT FOUND 404</h1>} />
         </Route>
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/reducer" element={<Reducer />} />
+        <Route
+          path="/reducer"
+          element={
+            <IsAdmin user={user} isRoute={true}>
+              <Reducer />
+            </IsAdmin>
+          }
+        />
         <Route path="*" element={<h1>NOT FOUND 404</h1>} />
       </Routes>
       <RouteHOC path="/test" element={<TestComp />} />

@@ -8,9 +8,12 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleLogin = (values) => {
+    let payload = {};
+    payload.email = values.email;
+    payload.password = values.password;
     setLoading(true);
     axios
-      .post(import.meta.env.VITE_API_BASE_URL + "api/v1/users/login", values, {
+      .post(import.meta.env.VITE_API_BASE_URL + "api/v1/users/login", payload, {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem("user"))?.token}`,
         },
@@ -32,6 +35,7 @@ const LoginForm = () => {
       initialValues={{
         email: "",
         password: "",
+        // image: null,
       }}
       validationSchema={Yup.object({
         email: Yup.string().email("Invalid email!").required("Email is Mandatory!"),
@@ -72,7 +76,6 @@ const LoginForm = () => {
             />
             <div className="text-sm text-red-500">
               <ErrorMessage name="password" />
-              {values.password}
             </div>
           </div>
           <button
