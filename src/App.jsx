@@ -8,6 +8,7 @@ import HOC from "./HOC";
 import { Route, Routes, useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import RouteHOC from "./RouteHOC";
 import LoginForm from "./LoginForm";
+import Reducer from "./Reducer";
 
 const App = () => {
   const [counts, setCounts] = useState(0);
@@ -101,6 +102,7 @@ const App = () => {
           <Route path="*" element={<h1>NOT FOUND 404</h1>} />
         </Route>
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/reducer" element={<Reducer />} />
         <Route path="*" element={<h1>NOT FOUND 404</h1>} />
       </Routes>
       <RouteHOC path="/test" element={<TestComp />} />
