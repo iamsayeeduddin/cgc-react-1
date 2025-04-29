@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Counter from "./Counter";
 import Name from "./Name";
 import Users from "./Users";
@@ -11,7 +11,9 @@ import LoginForm from "./LoginForm";
 import Reducer from "./Reducer";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import IsAdmin from "./utils/IsAdmin";
+import useFetch from "./useFetch";
 
+const nameContext = createContext();
 const App = () => {
   const [counts, setCounts] = useState(0);
   const user = JSON.parse(localStorage?.getItem("user"));
@@ -27,6 +29,8 @@ const App = () => {
       state: { val: true },
     });
   };
+
+  const [name, setName] = useState("Sayeed");
 
   return (
     // <>
@@ -63,7 +67,7 @@ const App = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/counter">Counter Home</Link>
+          <Link to="/counter">Counter Home {name}</Link>
         </li>
         <li>
           <Link to="/counter/app">Counter Page</Link>
@@ -81,6 +85,9 @@ const App = () => {
         </button>
         {`Welcome ${localStorage.getItem("user") ? JSON.parse(localStorage?.getItem("user"))?.name : "User!"}`}
       </ul>
+      <nameContext.Provider value={{ name, setName }}>
+        <CompA />
+      </nameContext.Provider>
       <Routes>
         <Route
           path={"/"}
@@ -127,7 +134,8 @@ const App = () => {
 
 const TestComp = () => {
   const location = useLocation();
-  console.log(location);
+  const { data, loading } = useFetch("https://api.github.com/users");
+  console.log(data, loading);
   return <h1>Testing RouteHOC</h1>;
 };
 
@@ -135,6 +143,19 @@ const TestDynamic = () => {
   const params = useParams();
   console.log(params);
   return <>Welcome {params.name}!</>;
+};
+
+const CompA = (props) => {
+  return <CompB {...props} />;
+};
+
+const CompB = (props) => {
+  return <CompC {...props} />;
+};
+
+const CompC = (props) => {
+  const value = useContext(nameContext);
+  return <input value={value.name} onChange={(e) => value.setName(e.target.value)} />;
 };
 
 export default App;

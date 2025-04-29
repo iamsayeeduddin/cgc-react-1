@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useCallback, useMemo, useReducer } from "react";
 import { useState } from "react";
 
 // const Reducer = () => {
@@ -52,9 +52,18 @@ const Reducer = () => {
 
   const [todos, dispatch] = useReducer(reducer, initialTodos);
 
-  const handleComplete = (id, complete) => {
+  // const handleComplete = (id, complete) => {
+  //   dispatch({ type: !complete ? "COMPLETE" : "PENDING", id });
+  // };
+
+  const handleComplete = useCallback((id, complete) => {
     dispatch({ type: !complete ? "COMPLETE" : "PENDING", id });
-  };
+  }, []);
+
+  let b = 10;
+  const a = useMemo(() => {
+    return b + 5;
+  }, [b]);
 
   return (
     <>
